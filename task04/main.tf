@@ -60,7 +60,7 @@ resource "azurerm_network_security_group" "nsg" {
 
 #inbound rule for http
 resource "azurerm_network_security_rule" "http" {
-  name                        = "AllowHTTP"
+  name                        = var.http_rule_name
   network_security_group_name = azurerm_network_security_group.nsg.name
   resource_group_name         = azurerm_resource_group.rg.name
 
@@ -76,7 +76,7 @@ resource "azurerm_network_security_rule" "http" {
 }
 
 resource "azurerm_network_security_rule" "ssh" {
-  name                        = "AllowSSH"
+  name                        = var.ssh_rule_name
   resource_group_name         = azurerm_resource_group.rg.name
   network_security_group_name = azurerm_network_security_group.nsg.name
 

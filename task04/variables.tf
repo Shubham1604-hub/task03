@@ -12,7 +12,15 @@ variable "subnet_name" {
   description = "Subnet name"
   type        = string
 }
+variable "http_rule_name" {
+  description = "HTTP rule name"
+  type        = string
+}
 
+variable "ssh_rule_name" {
+  description = "SSH rule name"
+  type        = string
+}
 variable "nic_name" {
   description = "Network Interface name"
   type        = string
