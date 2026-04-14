@@ -17,6 +17,11 @@ variable "http_rule_name" {
   type        = string
 }
 
+variable "ip_conf_name" {
+    description = "ip configuration name"
+    type = string
+}
+
 variable "ssh_rule_name" {
   description = "SSH rule name"
   type        = string

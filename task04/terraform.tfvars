@@ -5,6 +5,7 @@ subnet_name         = "frontend"
 nic_name = "cmaz-frq948m6-mod4-nic"
 nsg_name = "cmaz-frq948m6-mod4-nsg"
 
+ip_conf_name = "internal"
 http_rule_name = "AllowHTTP"
 ssh_rule_name  = "AllowSSH"
 pip_name       = "cmaz-frq948m6-mod4-pip"
