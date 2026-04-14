@@ -5,22 +5,23 @@ resource "azurerm_resource_group" "rg" {
 
 resource "azurerm_virtual_network" "vnet" {
   name                = var.vnet_name
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.rg.name
   location            = var.location
   address_space       = ["10.0.0.0/16"]
 }
 
 resource "azurerm_subnet" "frontend" {
-  resource_group_name  = var.resource_group_name
+  resource_group_name  = azurerm_resource_group.rg.name
   name                 = var.subnet_name
-  virtual_network_name = var.vnet_name
+  virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.1.0/24"]
 }
 
 resource "azurerm_public_ip" "pip" {
   name                = var.pip_name
+  sku                 = "Standard"
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.rg.name
 
   allocation_method = "Static"
   domain_name_label = var.dns_label
@@ -34,7 +35,7 @@ resource "azurerm_public_ip" "pip" {
 resource "azurerm_network_interface" "nic" {
   name                = var.nic_name
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.rg.name
 
   ip_configuration {
     name                          = var.ip_conf_name
@@ -50,7 +51,7 @@ resource "azurerm_network_interface" "nic" {
 
 resource "azurerm_network_security_group" "nsg" {
   name                = var.nsg_name
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.rg.name
   location            = var.location
 
   tags = {
@@ -118,8 +119,8 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "24_04-lts"
+    offer     = "ubuntu-24_04-lts"
+    sku       = "server"
     version   = "latest"
   }
 
