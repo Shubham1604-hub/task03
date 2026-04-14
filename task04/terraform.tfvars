@@ -12,5 +12,5 @@ vm_name = "cmaz-frq948m6-mod4-vm"
 
 location = "East US"
 
-creator_tag   = "shubhamparsharam_patgavkar@epam.com"
+creator_tag    = "shubhamparsharam_patgavkar@epam.com"
 admin_username = "azureuser"
