@@ -18,8 +18,8 @@ variable "http_rule_name" {
 }
 
 variable "ip_conf_name" {
-    description = "ip configuration name"
-    type = string
+  description = "ip configuration name"
+  type        = string
 }
 
 variable "ssh_rule_name" {
