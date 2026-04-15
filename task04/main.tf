@@ -1,6 +1,11 @@
 resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
   location = var.location
+
+  tags = {
+    Creator = var.creator_tag
+  }
+
 }
 
 resource "azurerm_virtual_network" "vnet" {
