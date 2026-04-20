@@ -35,9 +35,16 @@ variable "traffic_manager" {
   description = "Traffic Manager configuration"
 }
 
-variable "verification_ip" {
-  type        = string
-  description = "Verification agent IP address"
+variable "ip_restrictions" {
+  type = list(object({
+    name        = string
+    priority    = number
+    action      = string
+    ip_address  = optional(string)
+    service_tag = optional(string)
+  }))
+  description = "List of IP restrictions applied to all app services"
+  default     = []
 }
 
 variable "tags" {

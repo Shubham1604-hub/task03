@@ -47,7 +47,26 @@ traffic_manager = {
   routing_method = "Performance"
 }
 
-verification_ip = "18.153.146.156"
+ip_restrictions = [
+  {
+    name       = "allow-ip"
+    priority   = 100
+    action     = "Allow"
+    ip_address = "18.153.146.156/32"
+  },
+  {
+    name        = "allow-tm"
+    priority    = 110
+    action      = "Allow"
+    service_tag = "AzureTrafficManager"
+  },
+  {
+    name       = "Deny all"
+    priority   = 2147483647
+    action     = "Deny"
+    ip_address = "0.0.0.0/0"
+  },
+]
 
 tags = {
   Creator = "shubhamparsharam_patgavkar@epam.com"

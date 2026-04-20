@@ -1,23 +1,6 @@
 locals {
   common_tags = var.tags
 
-  ip_restrictions = [
-    {
-      name        = "allow-ip"
-      ip_address  = "${var.verification_ip}/32"
-      service_tag = null
-      action      = "Allow"
-      priority    = 100
-    },
-    {
-      name        = "allow-tm"
-      ip_address  = null
-      service_tag = "AzureTrafficManager"
-      action      = "Allow"
-      priority    = 200
-    },
-  ]
-
   traffic_manager_endpoints = {
     for k, app in module.app_services : k => {
       name     = app.name
@@ -58,7 +41,7 @@ module "app_services" {
   location            = var.resource_groups[each.value.resource_group_key].location
   resource_group_name = var.resource_groups[each.value.resource_group_key].name
   service_plan_id     = module.app_service_plans[each.value.service_plan_key].id
-  ip_restrictions     = local.ip_restrictions
+  ip_restrictions     = var.ip_restrictions
   tags                = local.common_tags
 
   depends_on = [module.app_service_plans]
