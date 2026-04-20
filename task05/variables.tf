@@ -1,54 +1,57 @@
 variable "resource_groups" {
+  description = "resource grps"
   type = map(object({
     name     = string
     location = string
   }))
-  description = "map of resource group objects"
-}
-
-variable "app_service_plans" {
-  type = map(object({
-    name               = string
-    worker_count       = number
-    sku                = string
-    resource_group_key = string
-  }))
-
-  description = "A map of App Service Plan objects"
-}
-
-variable "app_services" {
-  type = map(object({
-    name               = string
-    resource_group_key = string
-    service_plan_key   = string
-  }))
-  description = "A map of Windows Web App objects"
-}
-
-variable "traffic_manager" {
-  type = object({
-    name           = string
-    resource_group = string
-    routing_method = string
-  })
-  description = "Traffic Manager configuration"
-}
-
-variable "ip_restrictions" {
-  type = list(object({
-    name        = string
-    priority    = number
-    action      = string
-    ip_address  = optional(string)
-    service_tag = optional(string)
-  }))
-  description = "List of IP restrictions applied to all app services"
-  default     = []
 }
 
 variable "tags" {
   type        = map(string)
-  description = "Tags to apply to resources"
-  default     = {}
+  description = "tag"
 }
+
+variable "asp_configs" {
+  description = "app service plan"
+  type = map(object({
+    name               = string
+    worker_count       = number
+    resource_group_key = string
+    sku                = string
+    os_type            = string
+  }))
+}
+
+variable "app_service_configs" {
+  description = "app service configs"
+  type = map(object({
+    name               = string
+    resource_group_key = string
+    asp_key            = string
+  }))
+}
+
+variable "ip_restriction" {
+  description = "ip access levels"
+  type = list(object({
+    name     = string
+    priority = number
+    action   = string
+
+    ip_address  = optional(string)
+    service_tag = optional(string)
+  }))
+}
+
+variable "traffic_manager" {
+  description = "tm config"
+
+  type = object({
+    resource_group_key       = string
+    traffic_routing_method   = string
+    tm_name                  = string
+    ttl_dns_config           = number
+    relative_name_dns_config = string
+  })
+}
+

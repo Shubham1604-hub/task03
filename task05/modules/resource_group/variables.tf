@@ -1,15 +1,14 @@
 variable "name" {
+  description = "The name of the resource group"
   type        = string
-  description = "Name of the resource group"
 }
 
 variable "location" {
+  description = "The location of the resource group"
   type        = string
-  description = "Location for the resource group"
 }
 
 variable "tags" {
+  description = "A map of tags to assign to the resource group"
   type        = map(string)
-  description = "Tags to apply to the resource group"
-  default     = {}
 }

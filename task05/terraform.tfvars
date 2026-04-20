@@ -1,73 +1,84 @@
 resource_groups = {
-  rg1 = {
-    name     = "cmaz-frq948m6-mod5-rg-01"
-    location = "East US"
+  RG1 = {
+    name     = "cmaz-w7gf0vkr-mod5-rg-01"
+    location = "eastus"
   }
-  rg2 = {
-    name     = "cmaz-frq948m6-mod5-rg-02"
-    location = "West US"
+
+  RG2 = {
+    name     = "cmaz-w7gf0vkr-mod5-rg-02"
+    location = "westus"
   }
-  rg3 = {
-    name     = "cmaz-frq948m6-mod5-rg-03"
-    location = "Central US"
+
+  RG3 = {
+    name     = "cmaz-w7gf0vkr-mod5-rg-03"
+    location = "canadacentral"
   }
 }
 
-app_service_plans = {
+tags = {
+  Creator = "mattaparthi_venkatprashanth@epam.com"
+}
+
+asp_configs = {
   asp1 = {
-    name               = "cmaz-frq948m6-mod5-asp-01"
+    name               = "cmaz-w7gf0vkr-mod5-asp-01"
     worker_count       = 2
+    resource_group_key = "RG1"
+    os_type            = "Windows"
     sku                = "S1"
-    resource_group_key = "rg1"
   }
+
   asp2 = {
-    name               = "cmaz-frq948m6-mod5-asp-02"
+    name               = "cmaz-w7gf0vkr-mod5-asp-02"
     worker_count       = 1
+    resource_group_key = "RG2"
+    os_type            = "Windows"
     sku                = "S1"
-    resource_group_key = "rg2"
   }
 }
 
-app_services = {
+app_service_configs = {
   app1 = {
-    name               = "cmaz-frq948m6-mod5-app-01"
-    resource_group_key = "rg1"
-    service_plan_key   = "asp1"
+    name               = "cmaz-w7gf0vkr-mod5-app-01"
+    resource_group_key = "RG1"
+    asp_key            = "asp1"
   }
+
   app2 = {
-    name               = "cmaz-frq948m6-mod5-app-02"
-    resource_group_key = "rg2"
-    service_plan_key   = "asp2"
+    name               = "cmaz-w7gf0vkr-mod5-app-02"
+    resource_group_key = "RG2"
+    asp_key            = "asp2"
   }
 }
 
-traffic_manager = {
-  name           = "cmaz-frq948m6-mod5-traf"
-  resource_group = "rg3"
-  routing_method = "Performance"
-}
-
-ip_restrictions = [
+ip_restriction = [
   {
     name       = "allow-ip"
     priority   = 100
     action     = "Allow"
     ip_address = "18.153.146.156/32"
   },
+
   {
     name        = "allow-tm"
     priority    = 110
     action      = "Allow"
     service_tag = "AzureTrafficManager"
   },
+
   {
     name       = "Deny all"
     priority   = 2147483647
     action     = "Deny"
     ip_address = "0.0.0.0/0"
-  },
+  }
 ]
 
-tags = {
-  Creator = "shubhamparsharam_patgavkar@epam.com"
+traffic_manager = {
+  traffic_routing_method   = "Performance"
+  resource_group_key       = "RG3"
+  tm_name                  = "cmaz-w7gf0vkr-mod5-traf"
+  ttl_dns_config           = 30
+  relative_name_dns_config = "cmaz-w7gf0vkr-mod5-trafffenddnidnend"
 }
+

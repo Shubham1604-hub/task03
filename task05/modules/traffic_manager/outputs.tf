@@ -1,7 +1,9 @@
-output "id" {
-  value = azurerm_traffic_manager_profile.this.id
+output "fqdn" {
+  description = "The FQDN of the traffic manager profile"
+  value       = azurerm_traffic_manager_profile.tm.fqdn
 }
 
-output "fqdn" {
-  value = azurerm_traffic_manager_profile.this.fqdn
+output "tm_id" {
+  description = "id of tm"
+  value       = azurerm_traffic_manager_profile.tm.id
 }

@@ -1,60 +1,61 @@
-locals {
-  common_tags = var.tags
+module "RG" {
+  source = "./modules/resource_group"
 
-  traffic_manager_endpoints = {
-    for k, app in module.app_services : k => {
-      name     = app.name
-      target   = app.id
-      location = var.resource_groups[var.app_services[k].resource_group_key].location
-    }
-  }
-}
-
-module "resource_groups" {
   for_each = var.resource_groups
 
-  source   = "./modules/resource_group"
   name     = each.value.name
   location = each.value.location
-  tags     = local.common_tags
+
+  tags = var.tags
 }
 
-module "app_service_plans" {
-  for_each = var.app_service_plans
+module "Asp" {
+  source = "./modules/app_service_plan"
 
-  source              = "./modules/app_service_plan"
+  for_each = var.asp_configs
+
   name                = each.value.name
-  location            = var.resource_groups[each.value.resource_group_key].location
-  resource_group_name = var.resource_groups[each.value.resource_group_key].name
-  sku                 = each.value.sku
+  location            = module.RG[each.value.resource_group_key].location
   worker_count        = each.value.worker_count
-  tags                = local.common_tags
+  resource_group_name = module.RG[each.value.resource_group_key].name
+  sku_name            = each.value.sku
 
-  depends_on = [module.resource_groups]
+  os_type = each.value.os_type
+
+  tags = var.tags
 }
 
-module "app_services" {
-  for_each = var.app_services
+module "App" {
+  source = "./modules/app_service"
 
-  source              = "./modules/app_service"
+  for_each = var.app_service_configs
+
   name                = each.value.name
-  location            = var.resource_groups[each.value.resource_group_key].location
-  resource_group_name = var.resource_groups[each.value.resource_group_key].name
-  service_plan_id     = module.app_service_plans[each.value.service_plan_key].id
-  ip_restrictions     = var.ip_restrictions
-  tags                = local.common_tags
+  location            = module.RG[each.value.resource_group_key].location
+  resource_group_name = module.RG[each.value.resource_group_key].name
+  app_service_plan_id = module.Asp[each.value.asp_key].id
+  tags                = var.tags
 
-  depends_on = [module.app_service_plans]
+  ip_restriction = var.ip_restriction
 }
 
-module "traffic_manager" {
+module "TM" {
   source = "./modules/traffic_manager"
 
-  name                = var.traffic_manager.name
-  resource_group_name = var.resource_groups[var.traffic_manager.resource_group].name
-  routing_method      = var.traffic_manager.routing_method
-  endpoints           = local.traffic_manager_endpoints
-  tags                = local.common_tags
 
-  depends_on = [module.resource_groups, module.app_services]
-}
+  resource_group_name      = module.RG[var.traffic_manager.resource_group_key].name
+  traffic_routing_method   = var.traffic_manager.traffic_routing_method
+  tm_name                  = var.traffic_manager.tm_name
+  ttl_dns_config           = var.traffic_manager.ttl_dns_config
+  relative_name_dns_config = var.traffic_manager.relative_name_dns_config
+
+  endpoints = {
+    for app_key, app in module.App :
+    app_key => {
+      name               = app.name
+      target_resource_id = module.App[app_key].id #app.id
+    }
+  }
+
+  tags = var.tags
+} 

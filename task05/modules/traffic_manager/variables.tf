@@ -1,30 +1,37 @@
-variable "name" {
-  type        = string
-  description = "Name of the Traffic Manager profile"
-}
-
 variable "resource_group_name" {
+  description = "rg name"
   type        = string
-  description = "Name of the resource group for Traffic Manager"
 }
 
-variable "routing_method" {
+variable "traffic_routing_method" {
+  description = "traffic routing method"
   type        = string
-  description = "Routing method for Traffic Manager"
-  default     = "Performance"
-}
-
-variable "endpoints" {
-  type = map(object({
-    name     = string
-    target   = string
-    location = string
-  }))
-  description = "Map of endpoints for Traffic Manager"
 }
 
 variable "tags" {
+  description = "tag"
   type        = map(string)
-  description = "Tags to apply to the Traffic Manager profile"
-  default     = {}
+}
+
+variable "tm_name" {
+  description = "name of tm"
+  type        = string
+}
+
+variable "ttl_dns_config" {
+  description = "ttl(how long the dns rec. is cached by browser and resolver)"
+  type        = number
+}
+
+variable "relative_name_dns_config" {
+  description = "relative name of dns config"
+  type        = string
+}
+
+variable "endpoints" {
+  description = "ep"
+  type = map(object({
+    name               = string
+    target_resource_id = string
+  }))
 }

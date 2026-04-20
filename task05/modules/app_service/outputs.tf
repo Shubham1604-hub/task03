@@ -1,11 +1,14 @@
 output "id" {
-  value = azurerm_windows_web_app.this.id
+  description = "id of web app"
+  value       = azurerm_windows_web_app.windows_web_app.id
 }
 
 output "name" {
-  value = azurerm_windows_web_app.this.name
+  description = "name of web app"
+  value       = azurerm_windows_web_app.windows_web_app.name
 }
 
-output "default_hostname" {
-  value = azurerm_windows_web_app.this.default_hostname
+output "hostname" {
+  description = "hostname of web app"
+  value       = azurerm_windows_web_app.windows_web_app.default_hostname
 }
