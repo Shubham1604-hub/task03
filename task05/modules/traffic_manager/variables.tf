@@ -16,9 +16,9 @@ variable "routing_method" {
 
 variable "endpoints" {
   type = map(object({
-    name       = string
-    target     = string
-    location   = string
+    name     = string
+    target   = string
+    location = string
   }))
   description = "Map of endpoints for Traffic Manager"
 }
