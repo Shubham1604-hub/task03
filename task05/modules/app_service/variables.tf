@@ -18,9 +18,16 @@ variable "service_plan_id" {
   description = "ID of the App Service Plan"
 }
 
-variable "allow_ip_address" {
-  type        = string
-  description = "IP address to allow access from"
+variable "ip_restrictions" {
+  type = list(object({
+    name        = string
+    ip_address  = optional(string)
+    service_tag = optional(string)
+    action      = string
+    priority    = number
+  }))
+  description = "List of IP restrictions for the Web App"
+  default     = []
 }
 
 variable "tags" {

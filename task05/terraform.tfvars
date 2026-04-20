@@ -15,14 +15,16 @@ resource_groups = {
 
 app_service_plans = {
   asp1 = {
-    name         = "cmaz-frq948m6-mod5-asp-01"
-    worker_count = 2
-    sku          = "S1"
+    name               = "cmaz-frq948m6-mod5-asp-01"
+    worker_count       = 2
+    sku                = "S1"
+    resource_group_key = "rg1"
   }
   asp2 = {
-    name         = "cmaz-frq948m6-mod5-asp-02"
-    worker_count = 1
-    sku          = "S1"
+    name               = "cmaz-frq948m6-mod5-asp-02"
+    worker_count       = 1
+    sku                = "S1"
+    resource_group_key = "rg2"
   }
 }
 

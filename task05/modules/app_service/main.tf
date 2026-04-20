@@ -5,25 +5,17 @@ resource "azurerm_windows_web_app" "this" {
   service_plan_id     = var.service_plan_id
 
   site_config {
-    ip_restriction {
-      name       = "allow-ip"
-      ip_address = "${var.allow_ip_address}/32"
-      action     = "Allow"
-      priority   = 100
-    }
+    ip_restriction_default_action = "Deny"
 
-    ip_restriction {
-      name        = "allow-tm"
-      service_tag = "AzureTrafficManager"
-      action      = "Allow"
-      priority    = 200
-    }
-
-    ip_restriction {
-      name       = "deny-all"
-      ip_address = "0.0.0.0/0"
-      action     = "Deny"
-      priority   = 300
+    dynamic "ip_restriction" {
+      for_each = var.ip_restrictions
+      content {
+        name        = ip_restriction.value.name
+        ip_address  = ip_restriction.value.ip_address
+        service_tag = ip_restriction.value.service_tag
+        action      = ip_restriction.value.action
+        priority    = ip_restriction.value.priority
+      }
     }
   }
 

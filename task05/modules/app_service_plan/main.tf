@@ -4,6 +4,7 @@ resource "azurerm_service_plan" "this" {
   resource_group_name = var.resource_group_name
   os_type             = "Windows"
   sku_name            = var.sku
+  worker_count        = var.worker_count
 
   tags = var.tags
 }

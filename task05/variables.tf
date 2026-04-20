@@ -8,9 +8,10 @@ variable "resource_groups" {
 
 variable "app_service_plans" {
   type = map(object({
-    name         = string
-    worker_count = number
-    sku          = string
+    name               = string
+    worker_count       = number
+    sku                = string
+    resource_group_key = string
   }))
 
   description = "A map of App Service Plan objects"
