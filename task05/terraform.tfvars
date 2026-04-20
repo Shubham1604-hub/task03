@@ -1,27 +1,27 @@
 resource_groups = {
   RG1 = {
-    name     = "cmaz-w7gf0vkr-mod5-rg-01"
+    name     = "cmaz-frq948m6-mod5-rg-01"
     location = "eastus"
   }
 
   RG2 = {
-    name     = "cmaz-w7gf0vkr-mod5-rg-02"
+    name     = "cmaz-frq948m6-mod5-rg-02"
     location = "westus"
   }
 
   RG3 = {
-    name     = "cmaz-w7gf0vkr-mod5-rg-03"
+    name     = "cmaz-frq948m6-mod5-rg-03"
     location = "canadacentral"
   }
 }
 
 tags = {
-  Creator = "mattaparthi_venkatprashanth@epam.com"
+  Creator = "shubhamparsharam_patgavkar@epam.com"
 }
 
 asp_configs = {
   asp1 = {
-    name               = "cmaz-w7gf0vkr-mod5-asp-01"
+    name               = "cmaz-frq948m6-mod5-asp-01"
     worker_count       = 2
     resource_group_key = "RG1"
     os_type            = "Windows"
@@ -29,7 +29,7 @@ asp_configs = {
   }
 
   asp2 = {
-    name               = "cmaz-w7gf0vkr-mod5-asp-02"
+    name               = "cmaz-frq948m6-mod5-asp-02"
     worker_count       = 1
     resource_group_key = "RG2"
     os_type            = "Windows"
@@ -39,13 +39,13 @@ asp_configs = {
 
 app_service_configs = {
   app1 = {
-    name               = "cmaz-w7gf0vkr-mod5-app-01"
+    name               = "cmaz-frq948m6-mod5-app-01"
     resource_group_key = "RG1"
     asp_key            = "asp1"
   }
 
   app2 = {
-    name               = "cmaz-w7gf0vkr-mod5-app-02"
+    name               = "cmaz-frq948m6-mod5-app-02"
     resource_group_key = "RG2"
     asp_key            = "asp2"
   }
@@ -77,8 +77,8 @@ ip_restriction = [
 traffic_manager = {
   traffic_routing_method   = "Performance"
   resource_group_key       = "RG3"
-  tm_name                  = "cmaz-w7gf0vkr-mod5-traf"
+  tm_name                  = "cmaz-frq948m6-mod5-traf"
   ttl_dns_config           = 30
-  relative_name_dns_config = "cmaz-w7gf0vkr-mod5-trafffenddnidnend"
+  relative_name_dns_config = "cmaz-frq948m6-mod5-trafffenddnidnend"
 }
 
