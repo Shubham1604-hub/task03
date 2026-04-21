@@ -1,12 +1,13 @@
 output "sql_server_fqdn" {
   value       = azurerm_mssql_server.sql_server.fully_qualified_domain_name
-  description = "The fully qualified domain name of the SQL server"
+  description = "The fully qualified domain name of the SQL Server"
 }
 
 output "sql_database_id" {
   value       = azurerm_mssql_database.sql_database.id
-  description = "The ID of the sql database"
+  description = "The ID of the SQL Database"
 }
+
 
 output "sql_connection_string" {
   value = format(

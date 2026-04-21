@@ -7,6 +7,7 @@ resource "azurerm_service_plan" "asp" {
   os_type = var.os_type
 
   tags = var.tags
+
 }
 
 resource "azurerm_linux_web_app" "webapp" {
@@ -15,9 +16,12 @@ resource "azurerm_linux_web_app" "webapp" {
   location            = var.location
   service_plan_id     = azurerm_service_plan.asp.id
 
-  app_settings = {
-    "ConnectionStrings__DefaultConnection" = var.sql_connection_string
+  connection_string {
+    name  = "sql_connection_string"
+    type  = "SQLAzure"
+    value = var.sql_connection_string
   }
+
   site_config {
     application_stack {
       dotnet_version = var.dotnet_version
@@ -25,7 +29,4 @@ resource "azurerm_linux_web_app" "webapp" {
   }
 
   tags = var.tags
-
 }
-
-

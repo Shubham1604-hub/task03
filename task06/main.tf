@@ -17,7 +17,6 @@ module "sql" {
   resource_group_name = local.rg_name
   location            = azurerm_resource_group.rg.location
 
-  sql_admin_username                = var.sql_admin_username
   kv_secret_name_sql_admin_username = var.kv_secret_name_sql_admin_username
   kv_secret_name_sql_admin_password = var.kv_secret_name_sql_admin_password
 
