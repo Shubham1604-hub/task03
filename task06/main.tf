@@ -10,11 +10,12 @@ resource "azurerm_resource_group" "rg" {
 }
 
 module "sql" {
-  source          = "./modules/sql"
+  source = "./modules/sql"
+
   sql_server_name = local.sql_server_name
 
   resource_group_name = local.rg_name
-  location            = var.location
+  location            = azurerm_resource_group.rg.location
 
   kv_secret_name_sql_admin_username = var.kv_secret_name_sql_admin_username
   kv_secret_name_sql_admin_password = var.kv_secret_name_sql_admin_password
