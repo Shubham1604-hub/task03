@@ -1,6 +1,7 @@
-data "azurerm_key_vault_secret" "sql_admin_username" {
-  name         = var.kv_secret_name_sql_admin_username
-  key_vault_id = var.key_vault_id
+resource "random_string" "sql_admin_username" {
+  length  = 12
+  special = false
+  numeric = false
 }
 
 resource "random_password" "sql_password" {
@@ -14,7 +15,7 @@ resource "azurerm_mssql_server" "sql_server" {
   location            = var.location
   version             = "12.0"
 
-  administrator_login          = data.azurerm_key_vault_secret.sql_admin_username.value
+  administrator_login          = random_string.sql_admin_username.result
   administrator_login_password = random_password.sql_password.result
 
   tags = var.tags
