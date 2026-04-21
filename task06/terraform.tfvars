@@ -9,6 +9,8 @@ tags = {
 key_vault_name = "cmaz-frq948m6-mod6-kv"
 key_vault_rg   = "cmaz-frq948m6-mod6-kv-rg"
 
+sql_admin_username = "sqladmin"
+
 sql_sku = "S2"
 
 asp_sku = "P0v3"
