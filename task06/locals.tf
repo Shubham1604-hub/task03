@@ -1,4 +1,5 @@
 locals {
+  # Core names
   rg_name         = format("%s-rg", var.name_prefix)
   sql_server_name = format("%s-sql", var.name_prefix)
   sql_db_name     = format("%s-sql-db", var.name_prefix)

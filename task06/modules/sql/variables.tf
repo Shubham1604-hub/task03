@@ -38,11 +38,6 @@ variable "key_vault_id" {
   description = "id of the key vault"
 }
 
-variable "sql_admin_username" {
-  type        = string
-  description = "SQL server administrator login username"
-}
-
 variable "kv_secret_name_sql_admin_username" {
   type        = string
   description = "secret name for sql admin username"

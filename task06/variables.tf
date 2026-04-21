@@ -25,11 +25,6 @@ variable "key_vault_rg" {
 }
 
 # SQL
-variable "sql_admin_username" {
-  description = "SQL server administrator login username"
-  type        = string
-}
-
 variable "sql_sku" {
   description = "SQL Database SKU"
   type        = string

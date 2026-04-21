@@ -6,17 +6,21 @@ tags = {
   Creator = "shubhamparsharam_patgavkar@epam.com"
 }
 
+# Existing Key Vault
 key_vault_name = "cmaz-frq948m6-mod6-kv"
 key_vault_rg   = "cmaz-frq948m6-mod6-kv-rg"
 
-sql_admin_username = "sqladmin"
-
+# SQL
 sql_sku = "S2"
 
+
+
+# App Service Plan
 asp_sku = "P0v3"
 
 os_type = "Linux"
 
+# Web App
 dotnet_version = "8.0"
 
 allowed_ip_address = "18.153.146.156"
