@@ -1,6 +1,6 @@
 name_prefix = "cmaz-frq948m6-mod6"
 
-location = "East US 2"
+location = "North Europe"
 
 tags = {
   Creator = "shubhamparsharam_patgavkar@epam.com"
