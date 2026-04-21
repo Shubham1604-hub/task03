@@ -15,10 +15,8 @@ resource "azurerm_linux_web_app" "webapp" {
   location            = var.location
   service_plan_id     = azurerm_service_plan.asp.id
 
-  connection_string {
-    name  = "sql_connection_string"
-    type  = "SQLAzure"
-    value = var.sql_connection_string
+  app_settings = {
+    "ConnectionStrings__DefaultConnection" = var.sql_connection_string
   }
   site_config {
     application_stack {
