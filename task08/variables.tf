@@ -1,77 +1,155 @@
 variable "name_prefix" {
-  description = "Name prefix for all resources"
+  description = "prefix"
   type        = string
-  default     = "cmtr-frq948m6-mod8"
 }
 
-variable "git_pat" {
-  description = "Git personal access token for ACR task"
+variable "resource_group_name" {
+  description = "Name of the Resource Group"
   type        = string
-  sensitive   = true
-}
-
-variable "creator" {
-  description = "Creator tag value"
-  type        = string
-  default     = "shubhamparsharam_patgavkar@epam.com"
 }
 
 variable "location" {
   description = "Azure region"
   type        = string
-  default     = "eastus"
 }
+
+
+## redis vars
 
 variable "redis_capacity" {
-  description = "Redis cache capacity"
+  description = "Redis capacity"
   type        = number
-  default     = 2
 }
 
-variable "redis_sku" {
-  description = "Redis SKU"
+variable "redis_sku_name" {
+  description = "Redis SKU name"
   type        = string
-  default     = "Basic"
 }
 
 variable "redis_family" {
   description = "Redis SKU family"
   type        = string
-  default     = "C"
 }
+
+variable "redis_primary_key_secret_name" {
+  description = "Secret name for Redis primary key"
+  type        = string
+}
+
+variable "redis_hostname_secret_name" {
+  description = "Secret name for Redis hostname"
+  type        = string
+}
+
+## keyvault variables
+
+variable "kv_sku" {
+  description = "Key Vault SKU"
+  type        = string
+}
+
+
+
+# 📦 ACR
+
 
 variable "acr_sku" {
   description = "ACR SKU"
   type        = string
-  default     = "Basic"
 }
 
 variable "docker_image_name" {
   description = "Docker image name"
   type        = string
-  default     = "cmtr-frq948m6-mod8-app"
 }
+
+variable "repo_url" {
+  description = "The URL of the Git repository containing the Dockerfile"
+  type        = string
+}
+
+variable "git_pat" {
+  description = "The Personal Access Token (PAT) for accessing the Git repository"
+  type        = string
+  sensitive   = true
+}
+
+## ACI variables
 
 variable "aci_sku" {
   description = "ACI SKU"
   type        = string
-  default     = "Standard"
 }
 
-variable "aks_node_count" {
-  description = "AKS default node pool count"
+
+variable "node_pool_name" {
+  description = "AKS node pool name"
+  type        = string
+}
+
+variable "node_count" {
+  description = "Number of nodes"
   type        = number
-  default     = 1
 }
 
-variable "aks_node_size" {
-  description = "AKS node size"
+variable "node_vm_size" {
+  description = "VM size for nodes"
   type        = string
-  default     = "Standard_D2ads_v6"
 }
 
-variable "aks_os_disk_type" {
-  description = "AKS OS disk type"
+variable "os_disk_type" {
+  description = "OS disk type"
   type        = string
-  default     = "Ephemeral"
 }
+
+variable "os_disk_size_gb" {
+  description = "OS disk size in GB"
+  type        = number
+}
+
+variable "tags" {
+  description = "Common tags"
+  type        = map(string)
+}
+
+variable "aci_ip_type" {
+  description = "ip type"
+  type        = string
+}
+
+variable "aci_os_type" {
+  description = "os type"
+  type        = string
+}
+
+variable "aci_cpu" {
+  description = "CPU cores for the container"
+  type        = string
+}
+
+variable "aci_memory" {
+  description = "Memory in GB for the container"
+  type        = string
+}
+
+variable "aci_dns_label" {
+  description = "label for dns"
+  type        = string
+}
+
+variable "application_port" {
+  description = "Port on which the application will run"
+  type        = number
+}
+
+variable "redis_port" {
+  description = "Port on which Redis is running"
+  type        = number
+}
+
+variable "redis_ssl_mode" {
+  description = "SSL mode for Redis connection"
+  type        = string
+}
+
+

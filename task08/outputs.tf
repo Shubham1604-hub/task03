@@ -1,19 +1,9 @@
 output "aci_fqdn" {
-  description = "FQDN of App in Azure Container Instance"
   value       = module.aci.aci_fqdn
+  description = "The fully qualified domain name (FQDN) of the Azure Container Instance."
 }
 
 output "aks_lb_ip" {
   description = "Load Balancer IP address of APP in AKS"
-  value       = data.kubernetes_service.app_service.status[0].load_balancer[0].ingress[0].ip
-}
-
-output "acr_login_server" {
-  description = "ACR login server"
-  value       = module.acr.acr_login_server
-}
-
-output "keyvault_name" {
-  description = "Key Vault name"
-  value       = module.keyvault.keyvault_name
+  value       = data.kubernetes_service.app.status[0].load_balancer[0].ingress[0].ip
 }

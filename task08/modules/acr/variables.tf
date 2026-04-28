@@ -1,5 +1,5 @@
-variable "resource_group_name" {
-  description = "Resource group name"
+variable "rg_name" {
+  description = "Name of the Resource Group"
   type        = string
 }
 
@@ -9,34 +9,34 @@ variable "location" {
 }
 
 variable "acr_name" {
-  description = "ACR name"
+  description = "Azure Container Registry name"
   type        = string
 }
 
-variable "sku" {
+variable "acr_sku" {
   description = "ACR SKU"
   type        = string
-  default     = "Basic"
 }
 
-variable "docker_image_name" {
-  description = "Docker image name"
+variable "image_name" {
+  description = "name of the image"
   type        = string
 }
 
-variable "image_tag" {
-  description = "Docker image tag"
+variable "tags" {
+  description = "Tags for the Azure Container Registry"
+  type        = map(string)
+}
+
+
+variable "repo_url" {
+  description = "The URL of the Git repository containing the Dockerfile"
   type        = string
 }
 
 variable "git_pat" {
-  description = "Git personal access token"
+  description = "The Personal Access Token (PAT) for accessing the Git repository"
   type        = string
   sensitive   = true
 }
 
-variable "tags" {
-  description = "Resource tags"
-  type        = map(string)
-  default     = {}
-}

@@ -1,5 +1,11 @@
-variable "resource_group_name" {
-  description = "Resource group name"
+variable "kv_name" {
+  description = "Key Vault name"
+  type        = string
+}
+
+
+variable "sku_name" {
+  description = "Key Vault SKU name"
   type        = string
 }
 
@@ -8,23 +14,14 @@ variable "location" {
   type        = string
 }
 
-variable "keyvault_name" {
-  description = "Key Vault name"
+variable "rg_name" {
+  description = "Resource Group name"
   type        = string
 }
 
-variable "tenant_id" {
-  description = "Azure tenant ID"
-  type        = string
-}
 
-variable "current_user_object_id" {
-  description = "Current user object ID"
-  type        = string
-}
 
 variable "tags" {
-  description = "Resource tags"
+  description = "Tags for the Key Vault"
   type        = map(string)
-  default     = {}
 }

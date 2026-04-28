@@ -1,33 +1,51 @@
-variable "resource_group_name" {
-  description = "Resource group name"
-  type        = string
-}
-
-variable "location" {
-  description = "Azure region"
+variable "rg_name" {
+  description = "Name of the Resource Group"
   type        = string
 }
 
 variable "aci_name" {
-  description = "ACI name"
+  description = "Name of the Azure Container Instance"
+  type        = string
+}
+
+variable "location" {
+  description = "Location of the Azure Container Instance"
+  type        = string
+}
+
+variable "sku_name" {
+  description = "ACI SKU"
+  type        = string
+}
+
+variable "tags" {
+  description = "Tags for the Azure Container Instance"
+  type        = map(string)
+}
+
+variable "ip_type" {
+  description = "Public IP type for the Azure Container Instance"
+  type        = string
+}
+
+variable "os_type" {
+  description = "os type"
   type        = string
 }
 
 variable "acr_login_server" {
-  description = "ACR login server"
+  description = "login server for acr"
   type        = string
 }
 
 variable "acr_username" {
-  description = "ACR admin username"
+  description = "username for acr"
   type        = string
-  sensitive   = true
 }
 
 variable "acr_password" {
-  description = "ACR admin password"
+  description = "password for acr"
   type        = string
-  sensitive   = true
 }
 
 variable "docker_image_name" {
@@ -35,30 +53,45 @@ variable "docker_image_name" {
   type        = string
 }
 
-variable "image_tag" {
-  description = "Docker image tag"
+variable "cpu" {
+  description = "CPU cores for the container"
+  type        = number
+}
+
+variable "memory" {
+  description = "Memory in GB for the container"
+  type        = number
+}
+
+
+variable "dns_label_name" {
+  description = "DNS label name for the Azure Container Instance"
   type        = string
 }
 
-variable "redis_hostname" {
-  description = "Redis hostname"
+variable "application_port" {
+  description = "Port on which the application will run"
+  type        = number
+}
+
+variable "redis_port" {
+  description = "Port on which Redis is running"
+  type        = number
+}
+
+variable "redis_ssl_mode" {
+  description = "SSL mode for Redis connection"
   type        = string
 }
 
-variable "redis_primary_key" {
-  description = "Redis primary access key"
+variable "redis_url" {
+  description = "URL for Redis connection"
   type        = string
-  sensitive   = true
 }
 
-variable "sku" {
-  description = "ACI SKU"
+variable "redis_password" {
+  description = "password for redis"
   type        = string
-  default     = "Standard"
 }
 
-variable "tags" {
-  description = "Resource tags"
-  type        = map(string)
-  default     = {}
-}
+

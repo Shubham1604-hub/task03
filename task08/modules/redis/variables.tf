@@ -1,5 +1,5 @@
-variable "resource_group_name" {
-  description = "Resource group name"
+variable "redis_name" {
+  description = "Redis Cache name"
   type        = string
 }
 
@@ -8,45 +8,42 @@ variable "location" {
   type        = string
 }
 
-variable "redis_name" {
-  description = "Redis cache name"
-  type        = string
-}
-
-variable "capacity" {
-  description = "Redis cache capacity"
+variable "redis_capacity" {
+  description = "Redis capacity"
   type        = number
 }
 
-variable "sku" {
-  description = "Redis SKU"
+variable "redis_sku_name" {
+  description = "Redis SKU name"
   type        = string
 }
 
-variable "family" {
+variable "redis_family" {
   description = "Redis SKU family"
   type        = string
 }
 
-variable "keyvault_id" {
+variable "kv_id" {
   description = "Key Vault ID"
   type        = string
 }
 
-variable "redis_url_secret_name" {
-  description = "Secret name for Redis URL"
+variable "redis_primary_key_secret_name" {
+  description = "Secret name for Redis primary key"
   type        = string
-  default     = "redis-hostname"
 }
 
-variable "redis_password_secret_name" {
-  description = "Secret name for Redis password"
+variable "redis_hostname_secret_name" {
+  description = "Secret name for Redis hostname"
   type        = string
-  default     = "redis-primary-key"
+}
+
+variable "rg_name" {
+  description = "Resource group name"
+  type        = string
 }
 
 variable "tags" {
-  description = "Resource tags"
+  description = "tags"
   type        = map(string)
-  default     = {}
 }

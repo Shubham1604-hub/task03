@@ -1,0 +1,23 @@
+# Terraform working directory
+
+.terraform/
+
+# State files (never commit)
+
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+
+crash.log
+
+
+.terraform.lock.hcl
+# Plan files
+
+*.tfplan
+
+# CLI config
+
+.terraformrc
+terraform.rc

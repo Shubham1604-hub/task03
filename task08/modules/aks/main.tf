@@ -1,45 +1,74 @@
-resource "azurerm_kubernetes_cluster" "main" {
+resource "azurerm_kubernetes_cluster" "aks" {
   name                = var.aks_name
   location            = var.location
-  resource_group_name = var.resource_group_name
-  dns_prefix          = var.aks_name
-  
+  resource_group_name = var.rg_name
+  dns_prefix          = var.aks_dns_prefix
+
   default_node_pool {
-    name           = "system"
-    node_count     = var.node_count
-    vm_size      = var.node_size
-    os_disk_type = var.os_disk_type
+    name            = var.aks_node_pool_name
+    node_count      = var.aks_node_count
+    vm_size         = var.aks_node_vm_size
+    os_disk_type    = var.os_disk_type
+    os_disk_size_gb = var.os_disk_size_gb
   }
-  
+
   identity {
     type = "SystemAssigned"
   }
-  
-  # Enable CSI driver for secrets
+
   key_vault_secrets_provider {
-    secret_rotation_enabled  = true
-    secret_rotation_interval = "5m"
+    secret_rotation_enabled = true
   }
-  
+
   tags = var.tags
 }
 
-# Role assignment to allow AKS to pull images from ACR
-resource "azurerm_role_assignment" "aks_acr_pull" {
-  principal_id                     = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
-  role_definition_name             = "AcrPull"
-  scope                            = var.acr_id
-  skip_service_principal_aad_check = true
+
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_role_assignment" "acr_pull" {
+  scope                = var.acr_id
+  role_definition_name = "AcrPull"
+
+  principal_id = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+
+  depends_on = [
+    azurerm_kubernetes_cluster.aks
+  ]
 }
 
-# Key Vault access policy for AKS to get secrets
-resource "azurerm_key_vault_access_policy" "aks_kv_access" {
-  key_vault_id = var.keyvault_id
-  tenant_id    = var.tenant_id
-  object_id    = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
-  
+resource "azurerm_key_vault_access_policy" "aks" {
+  key_vault_id = var.key_vault_id
+
+  tenant_id = data.azurerm_client_config.current.tenant_id
+
+  # 👇 AKS managed identity
+  object_id = azurerm_kubernetes_cluster.aks.identity[0].principal_id
+
   secret_permissions = [
     "Get",
     "List"
+  ]
+
+  depends_on = [
+    azurerm_kubernetes_cluster.aks
+  ]
+}
+
+resource "azurerm_key_vault_access_policy" "aks_secrets_provider" {
+  key_vault_id = var.key_vault_id
+
+  tenant_id = data.azurerm_client_config.current.tenant_id
+
+  # 👇 Key Vault secrets provider identity (used by CSI driver)
+  object_id = azurerm_kubernetes_cluster.aks.key_vault_secrets_provider[0].secret_identity[0].object_id
+
+  secret_permissions = [
+    "Get",
+    "List"
+  ]
+
+  depends_on = [
+    azurerm_kubernetes_cluster.aks
   ]
 }
