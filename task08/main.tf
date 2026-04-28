@@ -25,45 +25,45 @@ module "redis" {
 # Key Vault Module
 module "keyvault" {
   source = "./modules/keyvault"
-  
-  resource_group_name = azurerm_resource_group.main.name
-  location           = azurerm_resource_group.main.location
-  keyvault_name      = local.keyvault_name
-  tenant_id          = data.azurerm_client_config.current.tenant_id
+
+  resource_group_name    = azurerm_resource_group.main.name
+  location               = azurerm_resource_group.main.location
+  keyvault_name          = local.keyvault_name
+  tenant_id              = data.azurerm_client_config.current.tenant_id
   current_user_object_id = data.azurerm_client_config.current.object_id
-  tags               = local.common_tags
+  tags                   = local.common_tags
 }
 
 # ACR Module
 module "acr" {
   source = "./modules/acr"
-  
+
   resource_group_name = azurerm_resource_group.main.name
-  location           = azurerm_resource_group.main.location
-  acr_name           = local.acr_name
-  sku                = var.acr_sku
-  docker_image_name  = var.docker_image_name
-  image_tag          = local.image_tag
-  git_pat           = var.git_pat
-  tags               = local.common_tags
+  location            = azurerm_resource_group.main.location
+  acr_name            = local.acr_name
+  sku                 = var.acr_sku
+  docker_image_name   = var.docker_image_name
+  image_tag           = local.image_tag
+  git_pat             = var.git_pat
+  tags                = local.common_tags
 }
 
 # AKS Module
 module "aks" {
   source = "./modules/aks"
-  
-  resource_group_name = azurerm_resource_group.main.name
-  location           = azurerm_resource_group.main.location
-  aks_name           = local.aks_name
-  node_count         = var.aks_node_count
-  node_size          = var.aks_node_size
-  os_disk_type       = var.aks_os_disk_type
-  acr_id             = module.acr.acr_id
-  keyvault_id        = module.keyvault.keyvault_id
-  redis_url_secret_name  = local.redis_url_secret_name
+
+  resource_group_name        = azurerm_resource_group.main.name
+  location                   = azurerm_resource_group.main.location
+  aks_name                   = local.aks_name
+  node_count                 = var.aks_node_count
+  node_size                  = var.aks_node_size
+  os_disk_type               = var.aks_os_disk_type
+  acr_id                     = module.acr.acr_id
+  keyvault_id                = module.keyvault.keyvault_id
+  redis_url_secret_name      = local.redis_url_secret_name
   redis_password_secret_name = local.redis_password_secret_name
-  tenant_id          = data.azurerm_client_config.current.tenant_id
-  tags               = local.common_tags
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  tags                       = local.common_tags
 }
 
 # ACI Module
@@ -90,12 +90,12 @@ module "aci" {
 resource "kubectl_manifest" "secret_provider_class" {
   yaml_body = templatefile("${path.module}/k8s-manifests/secret-provider.yaml.tftpl", {
     aks_kv_access_identity_id  = module.aks.aks_kv_access_identity_id
-    kv_name                     = local.keyvault_name
-    redis_url_secret_name       = local.redis_url_secret_name
-    redis_password_secret_name  = local.redis_password_secret_name
-    tenant_id                   = data.azurerm_client_config.current.tenant_id
+    kv_name                    = local.keyvault_name
+    redis_url_secret_name      = local.redis_url_secret_name
+    redis_password_secret_name = local.redis_password_secret_name
+    tenant_id                  = data.azurerm_client_config.current.tenant_id
   })
-  
+
   depends_on = [module.aks]
 }
 
@@ -105,20 +105,20 @@ resource "kubectl_manifest" "deployment" {
     app_image_name   = var.docker_image_name
     image_tag        = local.image_tag
   })
-  
+
   wait_for {
     field {
       key   = "status.availableReplicas"
       value = "1"
     }
   }
-  
+
   depends_on = [kubectl_manifest.secret_provider_class, module.acr]
 }
 
 resource "kubectl_manifest" "service" {
   yaml_body = file("${path.module}/k8s-manifests/service.yaml")
-  
+
   wait_for {
     field {
       key        = "status.loadBalancer.ingress.[0].ip"
@@ -126,7 +126,7 @@ resource "kubectl_manifest" "service" {
       value_type = "regex"
     }
   }
-  
+
   depends_on = [kubectl_manifest.deployment]
 }
 
@@ -135,7 +135,7 @@ data "kubernetes_service" "app_service" {
   metadata {
     name = "redis-flask-app-service"
   }
-  
+
   depends_on = [kubectl_manifest.service]
 }
 
