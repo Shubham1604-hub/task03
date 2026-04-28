@@ -1,6 +1,6 @@
-name_prefix = "cmtr-w7gf0vkr-mod8"
+name_prefix = "cmtr-frq948m6-mod8"
 
-resource_group_name = "cmtr-w7gf0vkr-mod8-rg"
+resource_group_name = "cmtr-frq948m6-mod8-rg"
 location            = "North Europe"
 
 
@@ -15,7 +15,7 @@ redis_hostname_secret_name    = "redis-hostname"
 
 
 acr_sku           = "Basic"
-docker_image_name = "cmtr-w7gf0vkr-mod8-app"
+docker_image_name = "cmtr-frq948m6-mod8-app"
 
 
 aci_sku = "Standard"
@@ -28,7 +28,7 @@ os_disk_type    = "Ephemeral"
 os_disk_size_gb = 50
 
 tags = {
-  Creator = "mattaparthi_venkatprashanth@epam.com"
+  Creator = "shubhamparsharam_patgavkar@epam.com"
 }
 
 repo_url = "https://github.com/m-vp/Terraform-Task#main:task08/application"
