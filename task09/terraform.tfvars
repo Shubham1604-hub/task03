@@ -1,2 +1,2 @@
-name_prefix         = "cmtr-w7gf0vkr-mod9-"
-aks_loadbalancer_ip = "132.164.151.30"
+name_prefix         = "cmtr-frq948m6-mod9-"
+aks_loadbalancer_ip = "52.170.161.184"
