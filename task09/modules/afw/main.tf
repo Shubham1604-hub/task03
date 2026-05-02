@@ -54,14 +54,6 @@ resource "azurerm_route" "route_health_probe" {
   next_hop_type       = "Internet"
 }
 
-resource "azurerm_route" "route_imds" {
-  name                = join("", [local.name_prefix, "imds-route"])
-  resource_group_name = var.rg_name
-  route_table_name    = azurerm_route_table.rt.name
-  address_prefix      = "169.254.169.254/32"
-  next_hop_type       = "Internet"
-}
-
 resource "azurerm_subnet_route_table_association" "association" {
   subnet_id      = var.aks_subnet_id
   route_table_id = azurerm_route_table.rt.id
