@@ -46,6 +46,22 @@ resource "azurerm_route" "route_to_afw" {
   next_hop_in_ip_address = azurerm_firewall.afw.ip_configuration[0].private_ip_address
 }
 
+resource "azurerm_route" "route_health_probe" {
+  name                = join("", [local.name_prefix, "health-probe-route"])
+  resource_group_name = var.rg_name
+  route_table_name    = azurerm_route_table.rt.name
+  address_prefix      = "168.63.129.16/32"
+  next_hop_type       = "Internet"
+}
+
+resource "azurerm_route" "route_imds" {
+  name                = join("", [local.name_prefix, "imds-route"])
+  resource_group_name = var.rg_name
+  route_table_name    = azurerm_route_table.rt.name
+  address_prefix      = "169.254.169.254/32"
+  next_hop_type       = "Internet"
+}
+
 resource "azurerm_subnet_route_table_association" "association" {
   subnet_id      = var.aks_subnet_id
   route_table_id = azurerm_route_table.rt.id
