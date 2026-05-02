@@ -4,4 +4,5 @@ locals {
   resource_group_name  = join("", [local.name_prefix, "rg"])
   virtual_network_name = join("", [local.name_prefix, "vnet"])
   aks_subnet_name      = "aks-snet"
+  aks_cluster_name     = join("", [local.name_prefix, "aks"])
 }
