@@ -35,7 +35,7 @@ module "afw" {
 }
 
 resource "azurerm_network_security_rule" "allow_fw_to_lb" {
-  name                        = "AllowAccessFromFirewallPublicIPToLoadBalancerIP"
+  name                        = join("", [local.name_prefix, "allow-fw-to-lb"])
   priority                    = 400
   direction                   = "Inbound"
   access                      = "Allow"
