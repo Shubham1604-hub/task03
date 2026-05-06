@@ -1,3 +1,4 @@
+# Existing variables for resource naming and configuration
 variable "name_prefix" {
   description = "Prefix for naming resources"
   type        = string
@@ -18,14 +19,9 @@ variable "vnet_name" {
   type        = string
 }
 
-variable "afw_subnet_address_prefix" {
-  description = "Address prefix for the Azure Firewall subnet (must be at least /26)"
-  type        = string
-  default     = "10.0.10.0/24"
-}
-
+# Variables for Azure Firewall configuration
 variable "afw_sku_tier" {
-  description = "SKU tier for Azure Firewall (e.g., Standard, Premium)"
+  description = "SKU tier for Azure Firewall (e.g., Standard)"
   type        = string
   default     = "Standard"
 }
@@ -35,7 +31,16 @@ variable "aks_subnet_id" {
   type        = string
 }
 
+
+variable "application_rules_protocol" {
+  description = "Protocol for the application rule (e.g., Http, Https)"
+  type = list(object({
+    protocol_type = string
+    port          = number
+  }))
+}
+
 variable "aks_lb_ip_address" {
-  description = "Public IP address of the AKS load balancer (DNAT target)"
+  description = "IP address of the AKS load balancer to allow in firewall rules"
   type        = string
 }

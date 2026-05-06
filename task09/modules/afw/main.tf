@@ -2,7 +2,7 @@ resource "azurerm_subnet" "subnet" {
   name                 = local.afw_subnet_name
   resource_group_name  = var.rg_name
   virtual_network_name = var.vnet_name
-  address_prefixes     = [var.afw_subnet_address_prefix]
+  address_prefixes     = ["10.0.10.0/24"]
 }
 
 resource "azurerm_public_ip" "afw_public_ip" {
@@ -29,7 +29,9 @@ resource "azurerm_firewall" "afw" {
     subnet_id            = azurerm_subnet.subnet.id
     public_ip_address_id = azurerm_public_ip.afw_public_ip.id
   }
+
 }
+
 
 resource "azurerm_route_table" "rt" {
   name                = local.route_table_name
@@ -41,24 +43,19 @@ resource "azurerm_route" "route_to_afw" {
   name                   = local.route_name
   resource_group_name    = var.rg_name
   route_table_name       = azurerm_route_table.rt.name
-  address_prefix         = "0.0.0.0/0"
+  address_prefix         = "10.1.0.0/16"
   next_hop_type          = "VirtualAppliance"
   next_hop_in_ip_address = azurerm_firewall.afw.ip_configuration[0].private_ip_address
 }
 
-resource "azurerm_route" "route_health_probe" {
-  name                = join("", [local.name_prefix, "health-probe-route"])
-  resource_group_name = var.rg_name
-  route_table_name    = azurerm_route_table.rt.name
-  address_prefix      = "168.63.129.16/32"
-  next_hop_type       = "Internet"
-}
 
 resource "azurerm_subnet_route_table_association" "association" {
   subnet_id      = var.aks_subnet_id
   route_table_id = azurerm_route_table.rt.id
 }
 
+
+# Firewall application rules
 resource "azurerm_firewall_application_rule_collection" "app_rule_collection" {
   name                = join("", [local.name_prefix, "app-rule-collection"])
   azure_firewall_name = azurerm_firewall.afw.name
@@ -72,15 +69,16 @@ resource "azurerm_firewall_application_rule_collection" "app_rule_collection" {
     target_fqdns     = ["microsoft.com", "docker.io"]
 
     dynamic "protocol" {
-      for_each = local.app_rule_protocols
+      for_each = var.application_rules_protocol
       content {
-        type = protocol.value.type
+        type = protocol.value.protocol_type
         port = protocol.value.port
       }
     }
   }
 }
 
+# Firewall network rules
 resource "azurerm_firewall_network_rule_collection" "net_rule_collection" {
   name                = join("", [local.name_prefix, "net-rule-collection"])
   azure_firewall_name = azurerm_firewall.afw.name
@@ -97,6 +95,7 @@ resource "azurerm_firewall_network_rule_collection" "net_rule_collection" {
   }
 }
 
+# Firewall NAT rules
 resource "azurerm_firewall_nat_rule_collection" "nat_rule_collection" {
   name                = join("", [local.name_prefix, "nat-rule-collection"])
   azure_firewall_name = azurerm_firewall.afw.name
